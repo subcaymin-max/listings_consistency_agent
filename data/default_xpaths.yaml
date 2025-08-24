@@ -1,0 +1,90 @@
+# Default XPaths for each site and field.
+# You can edit these in the UI (XPath Manager) and store multiple fallbacks with priorities.
+# Fields: name, address, phone, website (anchor+href via single XPath), hours
+#
+# ⚠️ These are EXAMPLES / PLACEHOLDERS. Inspect each site and update.
+# Use the XPath Manager to add multiple XPaths in priority order.
+#
+# Yelp supports multiple page types with 'detect' xpath.
+# The app will evaluate the 'detect' expression; the first matched type will be used.
+
+google:
+  name:
+    - {priority: 1, xpath: "//h1//text()"} # Example only
+  address:
+    - {priority: 1, xpath: "//*[contains(@aria-label,'Address')]//text()"} # Example only
+  phone:
+    - {priority: 1, xpath: "//*[contains(@aria-label,'Phone')]//text()"} # Example only
+  website:
+    - {priority: 1, xpath: "//a[contains(@href,'http')][1]"}  # Extracts anchor+href
+  hours:
+    - {priority: 1, xpath: "//*[contains(.,'Hours')]/following::table[1]//text()"} # Example only
+
+apple:
+  name:
+    - {priority: 1, xpath: "//h1//text()"}
+  address:
+    - {priority: 1, xpath: "//*[contains(@data-test-action,'address')]//text()"}
+  phone:
+    - {priority: 1, xpath: "//a[contains(@href,'tel:')]//text()"}
+  website:
+    - {priority: 1, xpath: "//a[contains(@href,'http') and contains(@data-test-action,'website')][1]"}
+  hours:
+    - {priority: 1, xpath: "//*[contains(.,'Hours')]/following::*[1]//text()"} # Example only
+
+bing:
+  name:
+    - {priority: 1, xpath: "//h1//text()"}
+  address:
+    - {priority: 1, xpath: "//*[contains(@class,'address')]//text()"}
+  phone:
+    - {priority: 1, xpath: "//a[contains(@href,'tel:')]//text()"}
+  website:
+    - {priority: 1, xpath: "//a[contains(@href,'http') and contains(@class,'website')][1]"}
+  hours:
+    - {priority: 1, xpath: "//*[contains(.,'Hours')]/following::*[1]//text()"} # Example only
+
+yahoo:
+  name:
+    - {priority: 1, xpath: "//h1//text()"}
+  address:
+    - {priority: 1, xpath: "//*[contains(@class,'address')]//text()"}
+  phone:
+    - {priority: 1, xpath: "//a[contains(@href,'tel:')]//text()"}
+  website:
+    - {priority: 1, xpath: "//a[contains(@href,'http') and (contains(.,'Website') or contains(@aria-label,'Website'))][1]"}
+  hours:
+    - {priority: 1, xpath: "//*[contains(.,'Hours')]/following::*[1]//text()"} # Example only
+
+yelp:
+  # Yelp supports multiple page types; each has a 'detect' xpath and a set of field xpaths.
+  page_types:
+    - name: "modern"
+      detect: "//*[contains(@data-testid,'photoHeader')]"
+      fields:
+        name:
+          - {priority: 1, xpath: "//h1[contains(@data-testid,'logo')]//text()"}
+          - {priority: 2, xpath: "//h1//text()"}
+        address:
+          - {priority: 1, xpath: "//address//text()"}
+        phone:
+          - {priority: 1, xpath: "//p[a[contains(@href,'tel:')]]//a//text()"}
+          - {priority: 2, xpath: "//a[contains(@href,'tel:')]//text()"}
+        website:
+          - {priority: 1, xpath: "//a[contains(@href,'biz_redir') and contains(.,'website')][1]"}
+          - {priority: 2, xpath: "//a[contains(@href,'http')][contains(.,'website')][1]"}
+        hours:
+          - {priority: 1, xpath: "//*[contains(.,'Hours')]/following::*[1]//text()"}
+    - name: "legacy"
+      detect: "//*[contains(@class,'biz-page')]"
+      fields:
+        name:
+          - {priority: 1, xpath: "//h1//text()"}
+        address:
+          - {priority: 1, xpath: "//address//text()"}
+        phone:
+          - {priority: 1, xpath: "//span[contains(@class,'biz-phone')]//text()"}
+        website:
+          - {priority: 1, xpath: "//a[contains(@href,'biz_redir') or contains(.,'Website')][1]"}
+        hours:
+          - {priority: 1, xpath: "//*[contains(.,'Hours')]/following::*[1]//text()"}
