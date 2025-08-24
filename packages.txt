@@ -1,0 +1,8 @@
+# Streamlit Cloud will apt-get install each of these packages before pip installs.
+# This allows building lxml from source on Python 3.13+ if needed.
+libxml2-dev
+libxslt1-dev
+# Some environments prefer 'libxslt-dev'; 'libxslt1-dev' works on Ubuntu images Streamlit uses.
+# If build still fails, add:
+# zlib1g-dev
+# gcc
